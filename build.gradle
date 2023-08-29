@@ -1,0 +1,75 @@
+plugins {
+    id 'java'
+    id 'application'
+//    id 'war'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+description = "Java 8 hashing"
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+//    mavenLocal()
+}
+
+sourceSets {
+    main {
+        runtimeClasspath = files(output.resourcesDir) + runtimeClasspath
+    }
+    test {
+        runtimeClasspath = files(output.resourcesDir) + runtimeClasspath
+    }
+}
+
+dependencies {
+    // if online:
+//    // https://mvnrepository.com/artifact/commons-codec/commons-codec
+//    implementation group: 'commons-codec', name: 'commons-codec', version: '1.16.0'
+//    // https://mvnrepository.com/artifact/com.google.guava/guava
+//    implementation group: 'com.google.guava', name: 'guava', version: '32.1.2-jre'
+
+    // if offline / Local JARs:
+    // 1
+//    flatDir {
+//        dirs 'lib1', 'lib2'
+//    }
+    // 2
+//    dependencies { implementation name: 'sample-jar-0.8.7' }
+    // 3
+//    implementation files('libs/commons-codec-1.16.0.jar', 'libs/guava-32.1.2-jre.jar')
+    //4
+    implementation fileTree(dir: 'libs', include: '*.jar')
+}
+
+test {
+    useJUnitPlatform()
+}
+
+//defaultTasks 'clean'
+
+// if need unique wrapper name
+//task wrapper(type: Wrapper) {
+//    gradleVersion = '1.0'
+//    jarFile = './gradle-wrapper/gradle-wrapper.jar'
+//    scriptFile = './gradle'
+//}
+
+//Types of Configuration
+//Furthermore, Gradle provides many dependencies configuration types:
+//
+//        api – used to make the dependencies explicit and expose them in the classpath. For instance, when implementing a library to be transparent to the library consumers'
+//implementation – required to compile the production source code and are purely internal. They aren't exposed outside the package
+//compileOnly – used when they need to be declared only at compile-time, such as source-only annotations or annotation processors. They don't appear in the runtime classpath or the test classpath
+//compileOnlyApi – used when required at compile time and when they need to be visible in the classpath for consumers
+//runtimeOnly – used to declare dependencies that are required only at runtime and aren't available at compile time
+//testImplementation – required to compile tests
+//testCompileOnly – required only at test compile time
+//testRuntimeOnly – required only at test runtime
+//We should note that the latest versions of Gradle deprecate some configurations like compile, testCompile, runtime, and testRuntime. At the time of writing, they're still available.
